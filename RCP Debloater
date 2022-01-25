@@ -1,0 +1,1270 @@
+#Bugs
+#Not able to compare versions of software being downloaded to prevent reinstall
+#Winget having issues installing
+
+Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.Application]::EnableVisualStyles()
+
+$ErrorActionPreference = 'SilentlyContinue'
+$wshell = New-Object -ComObject Wscript.Shell
+$Button = [System.Windows.MessageBoxButton]::YesNoCancel
+$ErrorIco = [System.Windows.MessageBoxImage]::Error
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]'Administrator')) {
+	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+	Exit
+}
+
+$Form                            = New-Object system.Windows.Forms.Form
+$Form.ClientSize                 = New-Object System.Drawing.Point(1050,700)
+$Form.text                       = "RCP Windows 10 Debloater"
+$Form.StartPosition              = "CenterScreen"
+$Form.TopMost                    = $false
+$Form.BackColor                  = [System.Drawing.ColorTranslator]::FromHtml("#b8b8b8")
+$Form.AutoScaleDimensions        = '192, 192'
+$Form.AutoScaleMode              = "Dpi"
+$Form.AutoSize                   = $True
+$Form.ClientSize                 = '1050, 800'
+$Form.FormBorderStyle            = 'FixedSingle'
+$Form.Width                      = $objImage.Width
+$Form.Height                     = $objImage.Height
+
+$Panel1                          = New-Object system.Windows.Forms.Panel
+$Panel1.height                   = 539
+$Panel1.width                    = 219
+$Panel1.location                 = New-Object System.Drawing.Point(6,54)
+
+$RCP                             = New-Object system.Windows.Forms.Button
+$RCP.text                        = "RCP Trio"
+$RCP.width                       = 211
+$RCP.height                      = 30
+$RCP.location                    = New-Object System.Drawing.Point(4,26)
+$RCP.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$gchrome                         = New-Object system.Windows.Forms.Button
+$gchrome.text                    = "Google Chrome"
+$gchrome.width                   = 212
+$gchrome.height                  = 30
+$gchrome.location                = New-Object System.Drawing.Point(4,60)
+$gchrome.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$firefox                         = New-Object system.Windows.Forms.Button
+$firefox.text                    = "Firefox"
+$firefox.width                   = 212
+$firefox.height                  = 30
+$firefox.location                = New-Object System.Drawing.Point(3,94)
+$firefox.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$adobereader                     = New-Object system.Windows.Forms.Button
+$adobereader.text                = "Adobe Reader DC"
+$adobereader.width               = 212
+$adobereader.height              = 30
+$adobereader.location            = New-Object System.Drawing.Point(3,128)
+$adobereader.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$vlc                             = New-Object system.Windows.Forms.Button
+$vlc.text                        = "VLC"
+$vlc.width                       = 212
+$vlc.height                      = 30
+$vlc.location                    = New-Object System.Drawing.Point(4,162)
+$vlc.Font                        = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$7zip                            = New-Object system.Windows.Forms.Button
+$7zip.text                       = "7-Zip"
+$7zip.width                      = 211
+$7zip.height                     = 30
+$7zip.location                   = New-Object System.Drawing.Point(4,196)
+$7zip.Font                       = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$imageglass                      = New-Object system.Windows.Forms.Button
+$imageglass.text                 = " "
+$imageglass.width                = 212
+$imageglass.height               = 30
+$imageglass.location             = New-Object System.Drawing.Point(4,228)
+$imageglass.Font                 = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$honeyview                       = New-Object system.Windows.Forms.Button
+$honeyview.text                  = " "
+$honeyview.width                 = 212
+$honeyview.height                = 30
+$honeyview.location              = New-Object System.Drawing.Point(4,261)
+$honeyview.Font                  = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$ERecycle                       = New-Object system.Windows.Forms.Button
+$ERecycle.text                   = "Empty Recycle Bin"
+$ERecycle.width                  = 204
+$ERecycle.height                 = 30
+$ERecycle.location               = New-Object System.Drawing.Point(4,244)
+$ERecycle.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$Label2                          = New-Object system.Windows.Forms.Label
+$Label2.text                     = "(Uses .exe from Debloat folder)"
+$Label2.AutoSize                 = $true
+$Label2.width                    = 25
+$Label2.height                   = 10
+$Label2.location                 = New-Object System.Drawing.Point(26,5)
+$Label2.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$Panel2                          = New-Object system.Windows.Forms.Panel
+$Panel2.height                   = 386
+$Panel2.width                    = 211
+$Panel2.location                 = New-Object System.Drawing.Point(239,54)
+
+$Label3                          = New-Object system.Windows.Forms.Label
+$Label3.text                     = "System Tweaks"
+$Label3.AutoSize                 = $true
+$Label3.width                    = 230
+$Label3.height                   = 25
+$Label3.location                 = New-Object System.Drawing.Point(230,12)
+$Label3.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',24)
+
+$essentialtweaks                 = New-Object system.Windows.Forms.Button
+$essentialtweaks.text            = "Essential Tweaks"
+$essentialtweaks.width           = 204
+$essentialtweaks.height          = 75
+$essentialtweaks.location        = New-Object System.Drawing.Point(4,25)
+$essentialtweaks.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+$Disableofficesignin             = New-Object system.Windows.Forms.Button
+$Disableofficesignin.text        = "Disable Office Signin"
+$Disableofficesignin.width       = 205
+$Disableofficesignin.height      = 30
+$Disableofficesignin.location    = New-Object System.Drawing.Point(3,139)
+$Disableofficesignin.Font        = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$DLockScreen                     = New-Object system.Windows.Forms.Button
+$DLockScreen.text                = "Disable LockScreen"
+$DLockScreen.width               = 204
+$DLockScreen.height              = 30
+$DLockScreen.location            = New-Object System.Drawing.Point(4,174)
+$DLockScreen.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$actioncenter                    = New-Object system.Windows.Forms.Button
+$actioncenter.text               = "Disable Action Center"
+$actioncenter.width              = 203
+$actioncenter.height             = 30
+$actioncenter.location           = New-Object System.Drawing.Point(4,105)
+$actioncenter.Font               = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$onedrive                        = New-Object system.Windows.Forms.Button
+$onedrive.text                   = "Uninstall OneDrive BROKEN"
+$onedrive.width                  = 204
+$onedrive.height                 = 30
+$onedrive.location               = New-Object System.Drawing.Point(4,209)
+$onedrive.Font                   = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$Label15                         = New-Object system.Windows.Forms.Label
+$Label15.text                    = "Windows Update"
+$Label15.AutoSize                = $true
+$Label15.width                   = 25
+$Label15.height                  = 10
+$Label15.location                = New-Object System.Drawing.Point(739,11)
+$Label15.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',24)
+
+$Panel4                          = New-Object system.Windows.Forms.Panel
+$Panel4.height                   = 387
+$Panel4.width                    = 360
+$Panel4.location                 = New-Object System.Drawing.Point(700,55)
+$Panel4.ForeColor                = #FFFF9494
+
+$defaultwindowsupdate            = New-Object system.Windows.Forms.Button
+$defaultwindowsupdate.text       = "Default Settings"
+$defaultwindowsupdate.width      = 300
+$defaultwindowsupdate.height     = 30
+$defaultwindowsupdate.location   = New-Object System.Drawing.Point(24,26)
+$defaultwindowsupdate.Font       = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+$securitywindowsupdate           = New-Object system.Windows.Forms.Button
+$securitywindowsupdate.text      = "Security Updates Only"
+$securitywindowsupdate.width     = 300
+$securitywindowsupdate.height    = 30
+$securitywindowsupdate.location  = New-Object System.Drawing.Point(24,142)
+$securitywindowsupdate.Font      = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+$Label16                         = New-Object system.Windows.Forms.Label
+$Label16.text                    = "I recommend doing security updates only."
+$Label16.AutoSize                = $true
+$Label16.width                   = 25
+$Label16.height                  = 10
+$Label16.location                = New-Object System.Drawing.Point(62,65)
+$Label16.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$Label17                         = New-Object system.Windows.Forms.Label
+$Label17.text                    = "- Delays Features updates up to 3 years"
+$Label17.AutoSize                = $true
+$Label17.width                   = 25
+$Label17.height                  = 10
+$Label17.location                = New-Object System.Drawing.Point(63,84)
+$Label17.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$Label18                         = New-Object system.Windows.Forms.Label
+$Label18.text                    = "- Delays Security updates 4 days"
+$Label18.AutoSize                = $true
+$Label18.width                   = 25
+$Label18.height                  = 10
+$Label18.location                = New-Object System.Drawing.Point(63,105)
+$Label18.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$Label19                         = New-Object system.Windows.Forms.Label
+$Label19.text                    = "- Sets Maximum Active Time"
+$Label19.AutoSize                = $true
+$Label19.width                   = 25
+$Label19.height                  = 10
+$Label19.location                = New-Object System.Drawing.Point(63,126)
+$Label19.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$Label20                         = New-Object system.Windows.Forms.Label
+$Label20.text                    = "- System Tweaks + Buttons + Ninite/Adobe"
+$Label20.AutoSize                = $true
+$Label20.width                   = 25
+$Label20.height                  = 10
+$Label20.location                = New-Object System.Drawing.Point(63,190)
+$Label20.Font                    = New-Object System.Drawing.Font('Microsoft Sans Serif',10)
+
+$PictureBox1                     = New-Object system.Windows.Forms.PictureBox
+$PictureBox1.width               = 500
+$PictureBox1.height              = 250
+$PictureBox1.location            = New-Object System.Drawing.Point(247,360)
+$PictureBox1.imageLocation       = "https://attachments.servably.com/uploads/account/logo/50973/thumbnail_RCPlogo.png?raw=true" 
+$PictureBox1.SizeMode            = [System.Windows.Forms.PictureBoxSizeMode]::zoom
+
+$Label1                          = New-Object system.Windows.Forms.Label
+$Label1.text                     = "Install"
+$Label1.AutoSize                 = $true
+$Label1.width                    = 230
+$Label1.height                   = 25
+$Label1.location                 = New-Object System.Drawing.Point(76,11)
+$Label1.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',24)
+
+$Label4                          = New-Object system.Windows.Forms.Label
+$Label4.text                     = "Undo"
+$Label4.AutoSize                 = $true
+$Label4.width                    = 230
+$Label4.height                   = 25
+$Label4.location                 = New-Object System.Drawing.Point(534,12)
+$Label4.Font                     = New-Object System.Drawing.Font('Microsoft Sans Serif',24)
+
+$Panel3                          = New-Object system.Windows.Forms.Panel
+$Panel3.height                   = 387
+$Panel3.width                    = 220
+$Panel3.location                 = New-Object System.Drawing.Point(464,54)
+
+$essentialundo                   = New-Object system.Windows.Forms.Button
+$essentialundo.text              = "Undo All"
+$essentialundo.width             = 211
+$essentialundo.height            = 75
+$essentialundo.location          = New-Object System.Drawing.Point(4,25)
+$essentialundo.Font              = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+$EActionCenter                   = New-Object system.Windows.Forms.Button
+$EActionCenter.text              = "Enable Action Center"
+$EActionCenter.width             = 211
+$EActionCenter.height            = 30
+$EActionCenter.location          = New-Object System.Drawing.Point(4,105)
+$EActionCenter.Font              = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$ELockScreen                     = New-Object system.Windows.Forms.Button
+$ELockScreen.text                = "Enable LockScreen"
+$ELockScreen.width               = 212
+$ELockScreen.height              = 30
+$ELockScreen.location            = New-Object System.Drawing.Point(4,173)
+$ELockScreen.Font                = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$Enableofficesignin              = New-Object system.Windows.Forms.Button
+$Enableofficesignin.text         = "Enable Office Signin"
+$Enableofficesignin.width        = 212
+$Enableofficesignin.height       = 30
+$Enableofficesignin.location     = New-Object System.Drawing.Point(4,139)
+$Enableofficesignin.Font         = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$InstallOneDrive                 = New-Object system.Windows.Forms.Button
+$InstallOneDrive.text            = "Install OneDrive BROKEN"
+$InstallOneDrive.width           = 212
+$InstallOneDrive.height          = 30
+$InstallOneDrive.location        = New-Object System.Drawing.Point(4,208)
+$InstallOneDrive.Font            = New-Object System.Drawing.Font('Microsoft Sans Serif',12)
+
+$RAll                            = New-Object system.Windows.Forms.Button
+$RAll.text                       = "Run All"
+$RAll.AutoSize                   = $true
+$RAll.width                      = 300
+$RAll.height                     = 30
+$RAll.location                   = New-Object System.Drawing.Point(24,206)
+$RAll.Font                       = New-Object System.Drawing.Font('Microsoft Sans Serif',14)
+
+$Form.controls.AddRange(@($Panel1,$Panel2,$Label3,$Label15,$Panel4,$PictureBox1,$Label1,$Label4,$Panel3))
+$Panel1.controls.AddRange(@($brave,$firefox,$7zip,$irfanview,$adobereader,$notepad,$gchrome,$mpc,$vlc,$powertoys,$winterminal,$RCP,$Label2,$everythingsearch,$sumatrapdf,$vscodium,$imageglass,$honeyview))
+$Panel2.controls.AddRange(@($essentialtweaks,$Disableofficesignin,$DLockScreen,$actioncenter,$onedrive,$ERecycle))
+$Panel4.controls.AddRange(@($defaultwindowsupdate,$securitywindowsupdate,$RAll,$Label16,$Label17,$Label18,$Label19,$Label20))
+$Panel3.controls.AddRange(@($essentialundo,$EActionCenter,$ELockScreen,$Enableofficesignin,$InstallOneDrive))
+
+$RCP.Add_Click({
+    Write-Host "Installing RCP Programs"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\Ninite Chrome,Firefox,Classic.exe"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\readerdc_en_xa_cra_install.exe"
+})
+
+$gchrome.Add_Click({
+    Write-Host "Installing Google Chrome"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\Chrome.exe"
+})
+
+$firefox.Add_Click({
+    Write-Host "Installing Firefox"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\Firefox.exe"
+})
+
+$adobereader.Add_Click({
+    Write-Host "Installing Adobe Reader"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\readerdc_en_xa_cra_install.exe"
+})
+
+$vlc.Add_Click({
+    Write-Host "Installing VLC Media Player"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\VLC.exe"
+})
+
+$7zip.Add_Click({
+    
+    Write-Host "Installing 7 Zip"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\7Zip.exe"
+
+})
+
+$essentialtweaks.Add_Click({
+
+    #SYSTEM RESTORE SETTING
+    Write-Host "Changing System restore frequency to turn off 24 hour limit"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "SystemRestorePointCreationFrequency" -Type DWord -Value 0
+
+    Write-Host "Turning on System Protection and setting it to 5%"
+    Enable-ComputerRestore -Drive "C:\"
+    vssadmin resize shadowstorage /for="C:\" /on="C:\" /maxsize=5%
+
+    Write-Host "Creating Restore Point incase something bad happens"
+    Enable-ComputerRestore -Drive "C:\"
+    Checkpoint-Computer -Description "RCPEssentialtweaksundo" -RestorePointType "MODIFY_SETTINGS"
+
+    #POWER SETTINGS
+    Write-Host "Creating and setting power to High Performance"
+    powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+
+    #DEBLOAT SETTINGS
+    Write-Host "Running O&O Shutup with RCP Settings"
+    Import-Module BitsTransfer
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/Nezbro/Justin-Austin/main/Shutup10" -Destination Shutup10.cfg
+    Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe 
+    ./OOSU10.exe Shutup10.cfg /quiet
+
+    #NETWORK SETTINGS
+    Write-Host "Turning off Network Discovery"
+    netsh advfirewall firewall set rule group="Network Discovery" new enable=no
+    
+    Write-Host "Turning off Automatic Network Setup"
+    Function Stop-PrinterAutoInstall
+    {
+        New-Item "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Force | New-ItemProperty -Name "AutoSetup" -Value 0 -Force | Out-Null
+
+        $PrinterInstall = Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup"
+
+        if ($PrinterInstall.AutoSetup -eq 0)
+        {
+             Write-Host "Printer AutoSetup Disabled"
+        }
+
+        Else {Write-Host "Printer AutoSetup still enabled, please setup manually"}
+    }
+
+    Stop-PrinterAutoInstall
+
+    #CONTROL PANEL SETTINGS
+    Write-Output "Setting Control Panel view to large icons..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Force | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 0
+
+    #Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "NoToastApplicationNotification" -Type DWord -Value 1
+
+    #NOTIFICATION SETTINGS
+    Write-Output "Turning off Get even more out of Windows notification..."
+    If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement")) 
+    {
+        New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion" -Name "UserProfileEngagement" 
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -Type DWord -Value 0
+    
+    Write-Host "Turning off Get notifcations from apps and other senders... "
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion" -Name "PushNotifications" 
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "NoToastApplicationNotification" -Type DWord -Value 1
+
+    #WINDOWS NONSENSE SETTINGS
+    Write-Host "Disabling Telemetry..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | Out-Null
+  
+    Write-Host "Disabling Application suggestions..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "OemPreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEverEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    
+    Write-Host "Disabling Activity History..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
+   
+    Write-Host "Disabling Location Tracking..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) 
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny" #######################Reg_SZ###################
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+   
+    Write-Host "Disabling automatic Maps updates..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
+   
+    Write-Host "Disabling Feedback..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 1
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClient" -ErrorAction SilentlyContinue | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload" -ErrorAction SilentlyContinue | Out-Null
+  
+    Write-Host "Disabling Tailored Experiences..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
+   
+    Write-Host "Disabling Advertising ID..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo")) 
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
+   
+    Write-Host "Disabling Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 1
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting" | Out-Null
+   
+    Write-Host "Restricting Windows Update P2P only to local network..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) 
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+   
+    Write-Host "Stopping and disabling Diagnostics Tracking Service..."
+    Stop-Service "DiagTrack" -WarningAction SilentlyContinue
+    Set-Service "DiagTrack" -StartupType Disabled
+  
+    Write-Host "Stopping and disabling WAP Push Service..."
+    Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
+    Set-Service "dmwappushservice" -StartupType Disabled
+   
+    Write-Host "Enabling F8 boot menu options..."
+    bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+   
+    Write-Host "Stopping and disabling Home Groups services..."
+    Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupListener" -StartupType Disabled
+    Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupProvider" -StartupType Disabled
+   
+    Write-Host "Disabling Storage Sense..."
+    Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Recurse -ErrorAction SilentlyContinue
+    
+    Write-Host "Stopping and disabling Superfetch service..."
+    Stop-Service "SysMain" -WarningAction SilentlyContinue
+    Set-Service "SysMain" -StartupType Disabled
+   
+    Write-Host "Disabling Hibernation..."
+    Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings")) 
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
+   
+    Write-Host "Showing task manager details..."
+    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+    Do 
+    {
+        Start-Sleep -Milliseconds 100
+        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+    } Until ($preferences)
+    Stop-Process $taskmgr
+    $preferences.Preferences[28] = 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+   
+    Write-Host "Showing file operations details..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
+   
+    #TIME SERVER SETTINGS
+    Write-Host "Setting time to Central Standard Time"
+    Set-TimeZone "Central Standard Time"
+
+    Write-Host "Syncing/Setting time server to nist.gov"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\w32time" -Name "Start" -Type DWord -Value "2" #2 is startup type automatic
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\Servers" -Name "(Default)" -Type String -Value "2" #2 is time.nist.gov, 1 is time.windows.com
+    net start W32time
+    w32tm /config /manualpeerlist:time.nist.gov /syncfromflags:manual /update
+
+    #TASKBAR SETTINGS
+    Write-Host "Showing all tray icons..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 0
+
+    Write-Host "Disable News and Interests"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
+
+    Write-Host "Hiding Task View button..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+    Write-Host "Hiding Cortana Button"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowCortanaButton" -Type DWord -Value 0
+   
+    Write-Host "Hiding People icon..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+
+    Write-Host "Uncombining Icons in Taskbar"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarGlomLevel" -Type DWord -Value 2
+
+    Write-Host "Unpinning icons from taskbar"
+    $appname = "Microsoft Edge"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Mail"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Microsoft Store"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Windows Media Player"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Dell Optimizer"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+   
+    Write-Host "Enabling NumLock after startup..."
+    If (!(Test-Path "HKU:")) 
+    {
+        New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+    }
+        Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2
+        Add-Type -AssemblyName System.Windows.Forms
+         If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+         $wsh = New-Object -ComObject WScript.Shell
+         $wsh.SendKeys('{NUMLOCK}')
+    }
+
+    Write-Host "Enabling Clipboard History..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+	Write-Host "Enabled Clipboard History"
+
+    Write-Host "Changing default Explorer view to This PC..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
+    
+    Write-Host "Hiding 3D Objects icon from This PC..."
+    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse -ErrorAction SilentlyContinue
+
+    Write-Host "Changing Cortana Search Bar to search icon"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 1
+
+	# Network Tweaks
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "IRPStackSize" -Type DWord -Value 20
+
+	# SVCHost Tweak
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
+    
+    #Onedrive nonsense
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -ErrorAction SilentlyContinue
+
+    Write-Host "Essential Tweaks Completed"
+    
+    Write-Host "O&O Requires restart for changes"
+
+    Write-Host "Restarting Computer.."
+    
+    $delay = 10
+    Write-Host "Restarting in..."
+    while ($delay -ge 0)
+    {
+      Write-Host "`r$delay " -NoNewline
+      start-sleep 1
+      $delay -= 1
+    }
+    Restart-Computer
+})
+
+$essentialundo.Add_Click({
+    
+    Write-Host "Changing System restore frequency to turn off 24 hour limit"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "SystemRestorePointCreationFrequency" -Type DWord -Value 0
+
+    Write-Host "Turning on System Protection and setting it to 5%"
+    Enable-ComputerRestore -Drive "C:\"
+    vssadmin resize shadowstorage /for="C:\" /on="C:\" /maxsize=5%
+
+    Write-Host "Creating Restore Point incase something bad happens"
+    Enable-ComputerRestore -Drive "C:\"
+    Checkpoint-Computer -Description "RCPundo" -RestorePointType "MODIFY_SETTINGS"
+
+    Write-Host "Running O&O Shutup with RCP Undo All Settings"
+    Import-Module BitsTransfer
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/Nezbro/Justin-Austin/main/RCP%20Settings%20Undo%20All" -Destination Shutup10Undo.cfg
+    Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
+    ./OOSU10.exe Shutup10Undo.cfg /quiet
+
+    #Turns off System protection and set size to 0%
+    Write-Host "Turning off System Protection and setting it to 0%"
+    Enable-ComputerRestore -Drive "C:\"
+    vssadmin resize shadowstorage /for="C:\" /off="C:\" /maxsize=0%
+
+    #Turns on Network Discovery
+    Write-Host "Turning on Network Discovery"
+    netsh advfirewall firewall set rule group="Network Discovery" new enable=yes
+
+    Write-Host "Showing Task View button..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 1
+
+    Write-Host "Showing Cortana Button"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowCortanaButton" -Type DWord -Value 1
+
+    Write-Host "Enabling Telemetry..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 1
+   
+    Write-Host "Enabling Application suggestions..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "OemPreInstalledAppsEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEverEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 1
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 0
+   
+    Write-Host "Enabling Activity History..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 1
+   
+    Write-Host "Enable Location Tracking..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
+        Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Allow"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 1
+   
+    Write-Host "Enabling automatic Maps updates..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 1
+   
+    Write-Host "Enabling Feedback..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
+        Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 0
+  
+   Write-Host "Enabling Tailored Experiences..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        Remove-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 0
+   
+    Write-Host "Disabling Advertising ID..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo")) {
+        Remove-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 0
+   
+    Write-Host "Allow Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 0
+   
+    Write-Host "Allowing Diagnostics Tracking Service..."
+    Stop-Service "DiagTrack" -WarningAction SilentlyContinue
+    Set-Service "DiagTrack" -StartupType Manual
+   
+    Write-Host "Allowing WAP Push Service..."
+    Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
+    Set-Service "dmwappushservice" -StartupType Manual
+   
+    Write-Host "Allowing Home Groups services..."
+    Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupListener" -StartupType Manual
+    Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupProvider" -StartupType Manual
+   
+    Write-Host "Enabling Storage Sense..."
+    New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" | Out-Null
+   
+    Write-Host "Allowing Superfetch service..."
+    Stop-Service "SysMain" -WarningAction SilentlyContinue
+    Set-Service "SysMain" -StartupType Manual
+   
+    Write-Host "Setting BIOS time to Local Time instead of UTC..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" -Name "RealTimeIsUniversal" -Type DWord -Value 0
+   
+    Write-Host "Enabling Hibernation..."
+    Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 1
+	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -ErrorAction SilentlyContinue
+
+    Write-Host "Hiding file operations details..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager")) {
+        Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Recurse -ErrorAction SilentlyContinue
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 0
+   
+    Write-Host "Showing Task View button..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 1
+   
+    Write-Host "Hiding tray icons..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 1
+
+    Write-Host "Changing default Explorer view to Quick Access..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 0
+
+    Write-Host "Essential Undo Completed"
+
+     Write-Host "Restarting Computer.."
+    
+    $delay = 10
+    Write-Host "Restarting in..."
+    while ($delay -ge 0)
+    {
+      Write-Host "`r$delay " -NoNewline
+      start-sleep 1
+      $delay -= 1
+    }
+    Restart-Computer
+})
+
+$ERecycle.Add_Click({
+    Write-Host "Emptying Recycle Bin"
+    Clear-RecycleBin -Force
+    Write-Host "Emptied Recycle Bin"
+})
+
+$windowssearch.Add_Click({
+    Write-Host "Disabling Bing Search in Start Menu..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "CortanaConsent" -Type DWord -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search" -Name "DisableWebSearch" -Type DWord -Value 1
+    Write-Host "Stopping and disabling Windows Search indexing service..."
+    Stop-Service "WSearch" -WarningAction SilentlyContinue
+    Set-Service "WSearch" -StartupType Disabled
+    Write-Host "Hiding Taskbar Search icon / box..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" -Name "SearchboxTaskbarMode" -Type DWord -Value 0
+    Write-Host "Search tweaks completed"
+})
+
+$Disableofficesignin.Add_Click({
+    Write-Host "Disabling Office Signin..."
+     if (!(Test-Path "HKCU:\Software\Microsoft\Office\16.0\Common\SignIn"))
+    {
+        New-Item -Path "HKCU:\Software\Microsoft\Office\16.0\Common" -Name "Signin"
+    }
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Office\16.0\Common\SignIn" -Name "SignInOptions" -Type Dword -Value 3 #Folder needs to be created before it works
+    Write-Host "Disabled Office Signin"
+})
+
+$DLockScreen.Add_Click({
+    Write-Host "Disabling LockScreen..."
+    if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"))
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "Personalization"
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -Type Dword -Value 1 #Folder needs to be created before it works
+    Write-Host "Disabled LockScreen"
+})
+
+$defaultwindowsupdate.Add_Click({
+    Write-Host "Enabling driver offering through Windows Update..."
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -ErrorAction SilentlyContinue
+    Write-Host "Enabling Windows Update automatic restart..."
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -ErrorAction SilentlyContinue
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -ErrorAction SilentlyContinue
+    Write-Host "Enabled driver offering through Windows Update"
+})
+
+$securitywindowsupdate.Add_Click({
+    Write-Host "Disabling driver offering through Windows Update..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Device Metadata" -Name "PreventDeviceMetadataFromNetwork" -Type DWord -Value 1
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontPromptForWindowsUpdate" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DontSearchWindowsUpdate" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" -Name "DriverUpdateWizardWuSearchEnabled" -Type DWord -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -Name "ExcludeWUDriversInQualityUpdate" -Type DWord -Value 1
+    Write-Host "Disabling Windows Update automatic restart..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoRebootWithLoggedOnUsers" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "AUPowerManagement" -Type DWord -Value 0
+    Write-Host "Disabled driver offering through Windows Update"
+})
+
+$actioncenter.Add_Click({
+    Write-Host "Disabling Action Center..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer")) {
+        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -Type DWord -Value 1
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -Type DWord -Value 0
+    Write-Host "Disabled Action Center"
+})
+
+#$onedrive.Add_Click({
+#    Write-Host "Disabling OneDrive..."
+#    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
+#        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
+#    }
+#    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
+#    Write-Host "Uninstalling OneDrive..."
+#    Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
+#    Start-Sleep -s 2
+#    $onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+#    If (!(Test-Path $onedrive)) {
+#        $onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+#    }
+#    Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
+#    Start-Sleep -s 2
+#    Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+#    Start-Sleep -s 2
+#    Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+#    Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+#    Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+#    Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
+#    If (!(Test-Path "HKCR:")) {
+#        New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+#    }
+#    Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+#    Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+#    Write-Host "Disabled OneDrive"
+#})
+
+$EActionCenter.Add_Click({
+    Write-Host "Enabling Action Center..."
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\Explorer" -Name "DisableNotificationCenter" -ErrorAction SilentlyContinue
+	Remove-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "ToastEnabled" -ErrorAction SilentlyContinue 
+	Write-Host "Done - Reverted to Stock Settings"
+})
+
+$ELockScreen.Add_Click({
+    Write-Host "Enabling LockScreen..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -Type Dword -Value 0
+	Write-Host "Enabled LockScreen"
+})
+
+$Enableofficesignin.Add_Click({
+	Write-Host "Enabling Office Signin..."
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Office\16.0\Common\SignIn" -Name "SignInOptions" -Type Dword -Value 1
+	Write-Host "Enabled Office Signin"
+})
+
+$EHibernation.Add_Click({
+    Write-Host "Enabling Hibernation"
+    Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 1
+    Write-Host "Done - Reverted to Stock Settings"
+})
+
+#$InstallOneDrive.Add_Click({
+#    Write-Host "Installing Onedrive. Please Wait..."
+#    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -ErrorAction SilentlyContinue
+#    %systemroot%\SysWOW64\OneDriveSetup.exe
+#})
+
+$DisableNumLock.Add_Click({
+    Write-Host "Disable NumLock after startup..."
+    Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 0
+    Add-Type -AssemblyName System.Windows.Forms
+    If (([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+        $wsh = New-Object -ComObject WScript.Shell
+        $wsh.SendKeys('{NUMLOCK}')
+    }
+})
+
+$RAll.Add_Click({
+
+    Write-Host "Installing RCP Programs"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\Ninite Chrome,Firefox,Classic.exe"
+    & "$($env:USERPROFILE)\Desktop\Windows 10 Debloater\readerdc_en_xa_cra_install.exe"
+
+    Write-Host "Changing System restore frequency to turn off 24 hour limit"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SystemRestore" -Name "SystemRestorePointCreationFrequency" -Type DWord -Value 0
+
+    Write-Host "Turning on System Protection and setting it to 5%"
+    Enable-ComputerRestore -Drive "C:\"
+    vssadmin resize shadowstorage /for="C:\" /on="C:\" /maxsize=5%
+
+    Write-Host "Creating and setting power to High Performance"
+    powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+
+    Write-Host "Creating Restore Point incase something bad happens"
+    Enable-ComputerRestore -Drive "C:\"
+    Checkpoint-Computer -Description "RCPRunallundo" -RestorePointType "MODIFY_SETTINGS"
+
+    Write-Host "Running O&O Shutup with RCP Settings"
+    Import-Module BitsTransfer
+    Start-BitsTransfer -Source "https://raw.githubusercontent.com/Nezbro/Justin-Austin/main/Shutup10" -Destination Shutup10.cfg
+    Start-BitsTransfer -Source "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe" -Destination OOSU10.exe
+    ./OOSU10.exe Shutup10.cfg /quiet
+
+    #Turns off Network Discovery
+    Write-Host "Turning off Network Discovery"
+    netsh advfirewall firewall set rule group="Network Discovery" new enable=no
+
+    Write-Host "Turning off Automatic Network Setup"
+    Function Stop-PrinterAutoInstall
+    {
+
+    New-Item "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Force | New-ItemProperty -Name "AutoSetup" -Value 0 -Force | Out-Null
+
+    $PrinterInstall = Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup"
+
+    if ($PrinterInstall.AutoSetup -eq 0)
+    {
+    Write-Host "Printer AutoSetup Disabled"
+    }
+
+    Else {Write-Host "Printer AutoSetup still enabled, please setup manually"}
+    }
+
+    Function Start-PrinterAutoInstall
+    {
+    $PrinterInstall = Get-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup"
+    if ($PrinterInstall.AutoSetup -ne 1)
+    {
+        Set-ItemProperty -Path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\NcdAutoSetup\Private" -Name "AutoSetup" -Value 1
+        Write-Host "Printer AutoSetup enabled"
+    }
+    Else {Write-Host "Printer AutoSetup already Enabled"}
+    }
+
+    Stop-PrinterAutoInstall
+
+    Write-Host "Showing all tray icons..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Type DWord -Value 0
+
+    Write-Output "Setting Control Panel view to large icons..."
+	If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) {
+		New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" | Out-Null
+	}
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
+	Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 0
+
+    Write-Output "Turning off Get even more out of Windows notification"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement" -Name "ScoobeSystemSettingEnabled" -Type DWord -Value 0
+
+    Write-Host "Turning off Get notifcations from apps and other senders... "
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications")) 
+    {
+        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows" -Name "PushNotifications" 
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\PushNotifications" -Name "NoToastApplicationNotification" -Type DWord -Value 1
+
+    Write-Host "Disabling Telemetry..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Policies\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Application Experience\ProgramDataUpdater" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Autochk\Proxy" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\Consolidator" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip" | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" | Out-Null
+  
+    Write-Host "Disabling Application suggestions..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "ContentDeliveryAllowed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "OemPreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEverEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SilentInstalledAppsEnabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338388Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338389Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-353698Enabled" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableWindowsConsumerFeatures" -Type DWord -Value 1
+    
+    Write-Host "Disabling Activity History..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "EnableActivityFeed" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "PublishUserActivities" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name "UploadUserActivities" -Type DWord -Value 0
+   
+    Write-Host "Disabling Location Tracking..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location")) {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" -Name "Value" -Type String -Value "Deny"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" -Name "SensorPermissionState" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" -Name "Status" -Type DWord -Value 0
+   
+    Write-Host "Disabling automatic Maps updates..."
+    Set-ItemProperty -Path "HKLM:\SYSTEM\Maps" -Name "AutoUpdateEnabled" -Type DWord -Value 0
+   
+    Write-Host "Disabling Feedback..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules")) {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" -Name "NumberOfSIUFInPeriod" -Type DWord -Value 0
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "DoNotShowFeedbackNotifications" -Type DWord -Value 1
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClient" -ErrorAction SilentlyContinue | Out-Null
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Feedback\Siuf\DmClientOnScenarioDownload" -ErrorAction SilentlyContinue | Out-Null
+  
+    Write-Host "Disabling Tailored Experiences..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent")) {
+        New-Item -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Force | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Policies\Microsoft\Windows\CloudContent" -Name "DisableTailoredExperiencesWithDiagnosticData" -Type DWord -Value 1
+   
+    Write-Host "Disabling Advertising ID..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo")) {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" -Name "DisabledByGroupPolicy" -Type DWord -Value 1
+   
+    Write-Host "Disabling Error reporting..."
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\Windows Error Reporting" -Name "Disabled" -Type DWord -Value 1
+    Disable-ScheduledTask -TaskName "Microsoft\Windows\Windows Error Reporting\QueueReporting" | Out-Null
+   
+    Write-Host "Restricting Windows Update P2P only to local network..."
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config")) {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" -Name "DODownloadMode" -Type DWord -Value 1
+   
+    Write-Host "Stopping and disabling Diagnostics Tracking Service..."
+    Stop-Service "DiagTrack" -WarningAction SilentlyContinue
+    Set-Service "DiagTrack" -StartupType Disabled
+  
+    Write-Host "Stopping and disabling WAP Push Service..."
+    Stop-Service "dmwappushservice" -WarningAction SilentlyContinue
+    Set-Service "dmwappushservice" -StartupType Disabled
+   
+    Write-Host "Enabling F8 boot menu options..."
+    bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
+   
+    Write-Host "Stopping and disabling Home Groups services..."
+    Stop-Service "HomeGroupListener" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupListener" -StartupType Disabled
+    Stop-Service "HomeGroupProvider" -WarningAction SilentlyContinue
+    Set-Service "HomeGroupProvider" -StartupType Disabled
+   
+    Write-Host "Disabling Storage Sense..."
+    Remove-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" -Recurse -ErrorAction SilentlyContinue
+    
+    Write-Host "Stopping and disabling Superfetch service..."
+    Stop-Service "SysMain" -WarningAction SilentlyContinue
+    Set-Service "SysMain" -StartupType Disabled
+   
+    Write-Host "Disabling Hibernation..."
+    Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Session Manager\Power" -Name "HibernteEnabled" -Type Dword -Value 0
+    If (!(Test-Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings")) {
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" | Out-Null
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FlyoutMenuSettings" -Name "ShowHibernateOption" -Type Dword -Value 0
+   
+    Write-Host "Showing task manager details..."
+    $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
+    Do {
+        Start-Sleep -Milliseconds 100
+        $preferences = Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -ErrorAction SilentlyContinue
+    } Until ($preferences)
+    Stop-Process $taskmgr
+    $preferences.Preferences[28] = 0
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\TaskManager" -Name "Preferences" -Type Binary -Value $preferences.Preferences
+   
+    Write-Host "Showing file operations details..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager")) {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -Type DWord -Value 1
+   
+    #Taskbar Adjustments
+    Write-Host "Setting time to Central Standard Time"
+    Set-TimeZone "Central Standard Time"
+
+    Write-Host "Syncing/Setting time server to nist.gov"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\w32time" -Name "Start" -Type DWord -Value "2" #2 is startup type automatic
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DateTime\Servers" -Name "(Default)" -Type String -Value "2"
+    net start W32time
+    w32tm /config /manualpeerlist:time.nist.gov /syncfromflags:manual /update
+
+    Write-Host "Disable News and Interests"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" -Name "ShellFeedsTaskbarViewMode" -Type DWord -Value 2
+
+    Write-Host "Hiding Task View button..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowTaskViewButton" -Type DWord -Value 0
+
+    Write-Host "Hiding Cortana Button"
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "ShowCortanaButton" -Type DWord -Value 0
+   
+    Write-Host "Hiding People icon..."
+    If (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People")) {
+        New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" | Out-Null
+    }
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People" -Name "PeopleBand" -Type DWord -Value 0
+
+    Write-Host "Uncombining Icons in Taskbar"
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarGlomLevel" -Type DWord -Value 2
+
+    Write-Host "Unpinning icons from taskbar"
+    $appname = "Microsoft Edge"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Mail"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Microsoft Store"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Windows Media Player"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    $appname = "Dell Optimizer"
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+   
+    Write-Host "Enabling NumLock after startup..."
+    If (!(Test-Path "HKU:")) {
+        New-PSDrive -Name HKU -PSProvider Registry -Root HKEY_USERS | Out-Null
+    }
+    Set-ItemProperty -Path "HKU:\.DEFAULT\Control Panel\Keyboard" -Name "InitialKeyboardIndicators" -Type DWord -Value 2
+    Add-Type -AssemblyName System.Windows.Forms
+    If (!([System.Windows.Forms.Control]::IsKeyLocked('NumLock'))) {
+        $wsh = New-Object -ComObject WScript.Shell
+        $wsh.SendKeys('{NUMLOCK}')
+    }
+
+    Write-Host "Changing default Explorer view to This PC..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
+    
+    Write-Host "Hiding 3D Objects icon from This PC..."
+    Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" -Recurse -ErrorAction SilentlyContinue
+
+	# Network Tweaks
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "IRPStackSize" -Type DWord -Value 20
+
+	# SVCHost Tweak
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value 4194304
+
+    Write-Host "Enabling Clipboard History..."
+    Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Clipboard" -Name "EnableClipboardHistory" -Type DWord -Value 1
+	Write-Host "Enabled Clipboard History"
+
+    Write-Host "Disabling LockScreen..."
+    if (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization"))
+    {
+        New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows" -Name "Personalization"
+    }
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization" -Name "NoLockScreen" -Type Dword -Value 1 #Folder needs to be created before it works
+    Write-Host "Disabled LockScreen"
+
+    Write-Host "Emptying Recycle Bin"
+    Clear-RecycleBin -Force
+    Write-Host "Emptied Recycle Bin"
+
+    #Write-Host "Disabling OneDrive..."
+    #If (!(Test-Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive")) {
+    #    New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
+    #}
+    #Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
+    #Write-Host "Uninstalling OneDrive..."
+    #Stop-Process -Name "OneDrive" -ErrorAction SilentlyContinue
+    #Start-Sleep -s 2
+    #$onedrive = "$env:SYSTEMROOT\SysWOW64\OneDriveSetup.exe"
+    #If (!(Test-Path $onedrive)) {
+    #    $onedrive = "$env:SYSTEMROOT\System32\OneDriveSetup.exe"
+    #}
+    #Start-Process $onedrive "/uninstall" -NoNewWindow -Wait
+    #Start-Sleep -s 2
+    #Stop-Process -Name "explorer" -ErrorAction SilentlyContinue
+    #Start-Sleep -s 2
+    #Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    #Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    #Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+    #Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
+    #If (!(Test-Path "HKCR:")) {
+    #    New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
+    #}
+    #Remove-Item -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+    #Remove-Item -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" -Recurse -ErrorAction SilentlyContinue
+    #Write-Host "Disabled OneDrive"
+
+    #Onedrive Nonsense something caused by shutup 10...probably..
+    Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -ErrorAction SilentlyContinue
+
+    Write-Host "All settings ran"
+    
+    Write-Host "O&O Requires restart for changes"
+    
+    Write-Host "Restarting Computer after 105 seconds to allow programs time to install"
+    
+    $delay = 105
+    Write-Host "Restarting in..."
+    while ($delay -ge 0)
+    {
+      Write-Host "`r$delay " -NoNewline
+      start-sleep 1
+      $delay -= 1
+    }
+     Restart-Computer
+})
+
+[void]$Form.ShowDialog()
